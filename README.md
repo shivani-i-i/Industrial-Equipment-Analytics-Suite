@@ -22,6 +22,13 @@ Web Dashboard (React): Features an interactive, state-driven UI that translates 
 
 Desktop Standalone (PyQt5): Engineered for "Offline-First" environments, providing field engineers with robust analytical tools without requiring a network connection.
 
+📂 Repository Organization
+├── 📂 server/         # Django REST API (Backend Engine)
+├── 📂 web/            # React.js Dashboard (Web UI)
+├── 📂 kinetics/       # Risk Analysis & Safety Module (Python Logic)
+├── 📂 desktop/        # PyQt5 Standalone Client (Desktop UI)
+└── 📄 sample_data.csv # Equipment Dataset for demonstration
+
 🧠 Engineering Challenges Overcome
 CORS Security Implementation: Resolved Cross-Origin Resource Sharing (CORS) barriers by configuring middleware to allow secure handshakes between the React frontend and Django backend.
 
@@ -29,19 +36,15 @@ Resilient Data Parsing: Optimized the backend to intelligently map equipment dat
 
 Environment Management: Successfully managed isolated virtual environments for distinct project tiers (Web, Server, and Desktop), ensuring zero dependency conflicts.
 
-📂 Repository Organization
-Plaintext
-├── 📂 server/         # Django REST API (Backend Engine)
-├── 📂 web/            # React.js Dashboard (Web UI)
-├── 📂 kinetics/       # Risk Analysis & Safety Module (Python Logic)
-├── 📂 desktop/        # PyQt5 Standalone Client (Desktop UI)
-└── 📄 sample_data.csv # Equipment Dataset for demonstration
 🚀 Deployment Instructions
-Backend: cd server && python manage.py runserver
-
-Frontend: cd web && npm start
-
-Safety Engine: cd kinetics && python main.py
-
+Backend:
+Bash
+cd server && python manage.py runserver
+Frontend:
+Bash
+cd web && npm start
+Safety Engine:
+Bash
+cd kinetics && python main.py
 Developer: Shivani
 Focused on Full-Stack Engineering, Industrial IoT, and Data Analytics.
