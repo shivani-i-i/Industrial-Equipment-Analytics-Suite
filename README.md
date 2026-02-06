@@ -1,6 +1,4 @@
-⚗️ Industrial Equipment Analytics & Risk Management Suite
-An Integrated Full-Stack Ecosystem for Chemical Engineering Data
-
+⚗️ Industrial Equipment Analytics Suite
 🌟 Project Executive Summary
 This suite was engineered to digitize and automate manual auditing processes in industrial chemical plants. By bridging a Django API with a React Dashboard and a PyQt5 Desktop Client, the system provides a 360-degree view of equipment health and operational safety.
 
@@ -40,17 +38,19 @@ Node.js and npm installed
 Bash
 cd server
 python -m venv .venv
-# Activate venv: .venv\Scripts\activate (Windows) or source .venv/bin/activate (Mac/Linux)
+# Activate venv (Windows):
+.venv\Scripts\activate
+# Install dependencies:
 pip install django django-cors-headers pandas
 python manage.py migrate
 python manage.py runserver
 3. Frontend Setup (React)
 Bash
-cd ../web
+cd web
 npm install
 npm start
 4. Running the Risk Analysis Module
 Bash
-cd ../kinetics
+cd kinetics
 python main.py
 Developer: Shivani Focused on Full-Stack Engineering, Industrial IoT, and Data Analytics.
