@@ -44,12 +44,12 @@ pip install django django-cors-headers pandas
 python manage.py migrate
 python manage.py runserver
 
-### 3. Frontend Setup (React)
+3. Frontend Setup (React)
 cd web
 npm install
 npm start
 
-###4. Safety Logic (Kinetics)
+4. Safety Logic (Kinetics)
 cd kinetics
 python main.py
 
