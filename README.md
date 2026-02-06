@@ -30,8 +30,6 @@ Desktop Client (PyQt5): Engineered for "Offline-First" environments, allowing fi
 
 📄 sample_data.csv — Equipment Dataset for demonstration
 
-📄 sample_data.csv — Equipment Dataset for demonstration
-
 🚀 Deployment Instructions
 Step 1: Start Backend
 
