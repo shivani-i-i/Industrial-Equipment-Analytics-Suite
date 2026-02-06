@@ -1,56 +1,56 @@
-⚗️ Industrial Equipment Analytics Suite
-🌟 Project Executive Summary
-This suite was engineered to digitize and automate manual auditing processes in industrial chemical plants. By bridging a Django API with a React Dashboard and a PyQt5 Desktop Client, the system provides a 360-degree view of equipment health and operational safety.
+# ⚗️ Industrial Equipment Analytics Suite
 
-🛠️ Technical Architecture
-1. Data Analytics Core (Django & Pandas)
-Orchestration: Developed a centralized API to handle complex file parsing and multi-part data streams.
+### 🌟 Project Executive Summary
+This suite was engineered to digitize and automate manual auditing processes in industrial chemical plants. By bridging a **Django API** with a **React Dashboard** and a **PyQt5 Desktop Client**, the system provides a 360-degree view of equipment health and operational safety.
 
-Logic: Integrated Pandas to execute real-time statistical analysis for pressure and flowrate metrics.
+---
 
-Design Pattern: Adopted Class-Based Views (CBVs) for professional, scalable endpoint structure.
+## 🛠️ Technical Architecture
 
-2. Kinetics: Algorithmic Risk Assessment
-Intelligence: Built a module that audits raw datasets against safety thresholds to identify "High-Risk" equipment automatically.
+### 1. Data Analytics Core (Django & Pandas)
+* **Orchestration:** Developed a centralized API to handle complex file parsing.
+* **Logic:** Integrated **Pandas** for real-time statistical analysis.
+* **Design:** Adopted **Class-Based Views (CBVs)** for professional scalability.
 
-Reporting: Automatically generates a high_risk_equipment.csv audit report for maintenance teams.
+### 2. Kinetics: Algorithmic Risk Assessment
+* **Intelligence:** Built a module that audits raw datasets against safety thresholds to identify "High-Risk" equipment automatically.
+* **Reporting:** Automatically generates a `high_risk_equipment.csv` audit report.
 
-📂 Repository Organization
-📂 server/ — Django REST API (Backend Engine)
+---
 
-📂 web/ — React.js Dashboard (Web UI)
+## 📂 Repository Organization
+* **📂 server/** — Django REST API (Backend Engine)
+* **📂 web/** — React.js Dashboard (Web UI)
+* **📂 kinetics/** — Risk Analysis & Safety Module (Python Logic)
+* **📂 desktop/** — PyQt5 Standalone Client (Desktop UI)
+* **📄 sample_data.csv** — Equipment Dataset for demonstration
 
-📂 kinetics/ — Risk Analysis & Safety Module (Python Logic)
+---
 
-📂 desktop/ — PyQt5 Standalone Client (Desktop UI)
+## 🚀 Installation & Setup Instructions
 
-📄 sample_data.csv — Equipment Dataset for demonstration
+### **1. Prerequisites**
+* Python 3.x installed
+* Node.js and npm installed
 
-🚀 Installation & Setup Instructions
-Follow these steps to get the environment running on your local machine:
-
-1. Prerequisites
-Python 3.x installed
-
-Node.js and npm installed
-
-2. Backend Setup (Django)
-Bash
+### **2. Backend Setup (Django)**
+```bash
 cd server
 python -m venv .venv
-# Activate venv (Windows):
+# Windows Activation:
 .venv\Scripts\activate
-# Install dependencies:
+# Install & Run:
 pip install django django-cors-headers pandas
 python manage.py migrate
 python manage.py runserver
+
 3. Frontend Setup (React)
-Bash
 cd web
 npm install
 npm start
-4. Running the Risk Analysis Module
-Bash
+
+4. Safety Logic (Kinetics)
 cd kinetics
 python main.py
-Developer: Shivani Focused on Full-Stack Engineering, Industrial IoT, and Data Analytics.
+
+Developer: Shivani Full-Stack Engineering | Industrial IoT | Data Analytics
