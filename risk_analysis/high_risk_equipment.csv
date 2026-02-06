@@ -1,0 +1,5 @@
+Equipment Name,Type,Flowrate,Pressure,Temperature
+Compressor-1,Compressor,95,8.4,95
+Reactor-1,Reactor,140,7.5,140
+HeatExchanger-2,HeatExchanger,155,6.3,132
+Reactor-2,Reactor,145,7.2,138
