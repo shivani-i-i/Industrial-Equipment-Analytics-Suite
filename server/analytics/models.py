@@ -1,11 +1,10 @@
 from django.db import models
 
-class AnalysisHistory(models.Model):
+class EquipmentAnalysis(models.Model):
     filename = models.CharField(max_length=255)
     upload_date = models.DateTimeField(auto_now_add=True)
-    total_equipment = models.IntegerField()
-    avg_flowrate = models.FloatField()
-    critical_count = models.IntegerField()
+    total_items = models.IntegerField()
+    average_risk = models.FloatField()
 
-    class Meta:
-        ordering = ['-upload_date'] # Keeps latest 5 at the top
+    def __str__(self):
+        return f"{self.filename} - {self.upload_date.strftime('%Y-%m-%d')}"
