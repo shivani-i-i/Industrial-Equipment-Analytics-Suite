@@ -3,7 +3,7 @@ from pathlib import Path
 # 1. BASE CONFIGURATION
 BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-3p#es=jb3i3v!qi%=#(unq@^w6kx$(9n5jkhfz(ea$33hg+2=z'
-DEBUG = True  # Ensure this is exactly True without quotes
+DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 # 2. APPLICATION DEFINITION
@@ -14,13 +14,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # Custom Apps
     'analytics',
     'rest_framework',
     'corsheaders', 
 ]
 
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware', # MUST be at the top
+    'corsheaders.middleware.CorsMiddleware', # MUST be at the very top
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -65,7 +67,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# 5. HYBRID APP SETTINGS (The Connection Fix)
+# 5. HYBRID APP SETTINGS (CORS & AUTH)
 CORS_ALLOW_CREDENTIALS = True
 
 # Allows connection from React on port 3001 or 3002
@@ -94,9 +96,14 @@ REST_FRAMEWORK = {
     ],
 }
 
-# Cookie and Session settings for cross-port communication
+# 6. COOKIE & CSRF DEEP FIX
 SESSION_COOKIE_SAMESITE = 'Lax'
 CSRF_COOKIE_SAMESITE = 'Lax'
+
+# Allows React to read the cookies from the browser
 SESSION_COOKIE_HTTPONLY = False
 CSRF_COOKIE_HTTPONLY = False
-CSRF_USE_SESSIONS = True
+
+# Important: Use cookie-based CSRF so React can access the token
+CSRF_USE_SESSIONS = False 
+CSRF_COOKIE_NAME = "csrftoken"
