@@ -1,12 +1,8 @@
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    # 1. Fixed 'core' to 'urls'
-    path('admin/', admin.site.urls), 
-    
-    # 2. Use include to connect your analytics app
-    # This automatically picks up 'upload/' and 'export-pdf/' 
-    # from your analytics/urls.py file
-    path('api/', include('analytics.urls')), 
+    # These paths combine with 'api/' from the main urls.py
+    path('upload/', views.upload_csv, name='upload_csv'),
+    path('export-pdf/', views.export_pdf, name='export_pdf'),
 ]
