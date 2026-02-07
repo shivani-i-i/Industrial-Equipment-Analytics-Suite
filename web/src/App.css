@@ -12,8 +12,9 @@
 
 body {
   margin: 0;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', -apple-system, sans-serif;
   background-color: var(--bg-main);
+  color: var(--text-main);
 }
 
 .dashboard-container {
@@ -21,39 +22,52 @@ body {
   min-height: 100vh;
 }
 
-/* Sidebar */
+/* --- Sidebar --- */
 .sidebar {
   width: 250px;
   background-color: var(--sidebar-bg);
   color: white;
   padding: 2rem 1.5rem;
   transition: all 0.3s ease;
+  flex-shrink: 0;
 }
 
-.sidebar.closed { width: 0; padding: 0; overflow: hidden; }
+.sidebar.closed {
+  width: 0;
+  padding: 0;
+  overflow: hidden;
+}
 
 .sidebar h2 {
   color: #a5b4fc;
   font-size: 1.2rem;
   margin-bottom: 3rem;
+  text-align: center;
   letter-spacing: 1px;
 }
 
 .sidebar ul { list-style: none; padding: 0; }
+
 .sidebar li {
-  padding: 12px;
+  padding: 12px 15px;
   border-radius: 8px;
   color: #94a3b8;
   cursor: pointer;
   margin-bottom: 8px;
+  transition: 0.2s;
 }
+
 .sidebar li.active, .sidebar li:hover {
   background: #334155;
   color: white;
 }
 
-/* Main */
-.main-content { flex: 1; padding: 2.5rem; overflow-x: hidden; }
+/* --- Main Content --- */
+.main-content {
+  flex: 1;
+  padding: 2.5rem;
+  max-width: 1400px;
+}
 
 header {
   display: flex;
@@ -62,7 +76,15 @@ header {
   margin-bottom: 2rem;
 }
 
-/* Stats */
+.sidebar-toggle {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-main);
+}
+
+/* --- Stats Cards --- */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -77,25 +99,63 @@ header {
   box-shadow: var(--shadow);
   border-top: 5px solid var(--primary);
 }
+
 .card.critical { border-top-color: var(--danger); }
 .card.stable { border-top-color: var(--success); }
-.card p { font-size: 2rem; font-weight: 800; margin: 0.5rem 0 0; }
 
-/* Upload */
+.card h3 {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.card p {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin: 0.5rem 0 0;
+}
+
+/* --- Upload Section --- */
 .upload-box {
   background: white;
-  padding: 2rem;
+  padding: 2.5rem;
   border-radius: 12px;
   border: 2px dashed #cbd5e1;
   text-align: center;
   margin-bottom: 2.5rem;
+  transition: border-color 0.3s;
 }
-input[type="file"] { display: none; }
 
-/* Grid Layout */
+.upload-box:hover {
+  border-color: var(--primary);
+}
+
+input[type="file"] {
+  display: none; /* Hidden to use custom styled label */
+}
+
+.btn-primary {
+  display: inline-block;
+  background: var(--primary);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+}
+
+/* --- Grid for Chart & Table --- */
 .results-container {
   display: grid;
-  grid-template-columns: 1.5fr 1fr;
+  grid-template-columns: 1.6fr 1fr;
   gap: 2rem;
 }
 
@@ -106,31 +166,41 @@ input[type="file"] { display: none; }
   box-shadow: var(--shadow);
 }
 
-.table-wrapper { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; }
-th { text-align: left; padding: 12px; border-bottom: 2px solid #f1f5f9; color: var(--text-muted); }
-td { padding: 12px; border-bottom: 1px solid #f8fafc; }
+/* --- Table Styling --- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
 
+th {
+  text-align: left;
+  padding: 12px;
+  border-bottom: 2px solid #f1f5f9;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+td {
+  padding: 12px;
+  border-bottom: 1px solid #f8fafc;
+  font-size: 0.95rem;
+}
+
+/* --- Status Pills --- */
 .status-pill {
-  padding: 4px 10px;
-  border-radius: 15px;
+  padding: 4px 12px;
+  border-radius: 20px;
   font-size: 0.75rem;
   font-weight: 700;
+  text-transform: uppercase;
 }
+
 .status-critical { background: #fee2e2; color: var(--danger); }
 .status-stable { background: #dcfce7; color: var(--success); }
 
-.btn-primary {
-  background: var(--primary);
-  color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-}
-.btn-export { background: var(--success); }
-
-@media (max-width: 1000px) {
-  .results-container { grid-template-columns: 1fr; }
+/* --- Responsive Layout --- */
+@media (max-width: 1024px) {
+  .results-container {
+    grid-template-columns: 1fr;
+  }
 }

@@ -21,7 +21,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
-  // CSV Upload & Parsing
+  // --- SMART DATA PARSING (Fixes the "Unknown" and Empty Graph issue) ---
   const handleFileUpload = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -31,70 +31,57 @@ function App() {
       header: true,
       skipEmptyLines: true,
       complete: (results) => {
-        const parsedData = results.data.map(row => ({
-          id: row.id || 'N/A',
-          name: row.name || 'Unknown',
-          status: row.status || 'Stable',
-          load: Number(row.load) || 0,
-        }));
+        const parsedData = results.data.map(row => {
+          // Identify columns regardless of capitalization or naming (ID, name, load)
+          const id = row.id || row.ID || row.Id || 'N/A';
+          const name = row.name || row.Name || row.Equipment || row.Asset || row.Service || 'Unknown';
+          const loadVal = Number(row.load || row.Load || row.risk_score || row.Risk || 0);
+          const status = row.status || row.Status || (loadVal >= 80 ? 'Critical' : 'Stable');
+
+          return { id, name, load: loadVal, status };
+        });
         setData(parsedData);
         setLoading(false);
       },
-      error: (err) => {
-        console.error("CSV Parsing Error:", err);
+      error: () => {
         setLoading(false);
-        alert("Error parsing CSV file.");
+        alert("Error reading CSV.");
       }
     });
   };
 
-  // PDF Generation - FIXED Function
+  // --- PDF EXPORT (Final Fixed Version) ---
   const exportPDF = () => {
     if (!data.length) return;
-
     const doc = new jsPDF();
     
-    // Title
     doc.setFont("helvetica", "bold");
     doc.setFontSize(18);
-    doc.setTextColor(63, 66, 241); // Indigo
-    doc.text("INDUSTRIAL EQUIPMENT ANALYTICS", 14, 20);
+    doc.setTextColor(63, 66, 241); 
+    doc.text("INDUSTRIAL EQUIPMENT ANALYTICS REPORT", 14, 20);
 
-    // Meta Data
     doc.setFontSize(10);
     doc.setTextColor(100, 116, 139);
-    doc.setFont("helvetica", "normal");
-    doc.text(`Report Generated: ${new Date().toLocaleString()}`, 14, 28);
-    doc.text(`Total Assets Analyzed: ${data.length}`, 14, 33);
+    doc.text(`Generated: ${new Date().toLocaleString()}`, 14, 28);
 
-    // Table Data
-    const tableColumn = ["ID", "Equipment Name", "Current Status", "Load Intensity (%)"];
-    const tableRows = data.map(item => [
-      item.id, 
-      item.name, 
-      item.status.toUpperCase(), 
-      `${item.load}%`
-    ]);
+    const tableColumn = ["ID", "Equipment Name", "Status", "Load (%)"];
+    const tableRows = data.map(item => [item.id, item.name, item.status.toUpperCase(), `${item.load}%`]);
 
-    // Functional call to autoTable to prevent "not a function" error
     autoTable(doc, {
       head: [tableColumn],
       body: tableRows,
-      startY: 40,
+      startY: 35,
       theme: 'grid',
-      headStyles: { fillColor: [79, 70, 229], fontStyle: 'bold' },
-      alternateRowStyles: { fillColor: [248, 250, 252] },
-      styles: { fontSize: 10, cellPadding: 5 },
+      headStyles: { fillColor: [79, 70, 229] },
     });
 
-    doc.save("Equipment_Analytics_Submission.pdf");
+    doc.save("Final_Equipment_Report.pdf");
   };
 
-  // Chart Configuration
   const chartData = {
     labels: data.map(d => d.name),
     datasets: [{
-      label: 'Load Percentage',
+      label: 'Load (%)',
       data: data.map(d => d.load),
       backgroundColor: data.map(d => d.load >= 80 ? '#ef4444' : '#6366f1'),
       borderRadius: 6,
@@ -103,13 +90,10 @@ function App() {
 
   return (
     <div className="dashboard-container">
-      <button className="sidebar-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>☰</button>
-
       <aside className={`sidebar ${sidebarOpen ? "open" : "closed"}`}>
         <h2>GEMINI DASH</h2>
         <ul>
           <li className="active">📊 Overview</li>
-          <li>📈 Analytics</li>
           <li>📋 Reports</li>
           <li>⚙️ Settings</li>
         </ul>
@@ -117,74 +101,46 @@ function App() {
 
       <main className="main-content">
         <header>
-          <h1>System Diagnostics</h1>
+          <button className="sidebar-toggle" onClick={() => setSidebarOpen(!sidebarOpen)}>☰</button>
+          <h1>System Overview</h1>
           {data.length > 0 && (
-            <button className="btn-primary btn-export" onClick={exportPDF}>
-              📥 Download PDF Report
+            <button className="btn-primary" style={{backgroundColor: '#10b981'}} onClick={exportPDF}>
+              📥 Export PDF
             </button>
           )}
         </header>
 
         <div className="stats-grid">
-          <div className="card">
-            <h3>Total Assets</h3>
-            <p>{data.length}</p>
-          </div>
-          <div className="card critical">
-            <h3>Critical Alerts</h3>
-            <p>{data.filter(d => d.status.toLowerCase() === 'critical' || d.load >= 80).length}</p>
-          </div>
-          <div className="card stable">
-            <h3>System Health</h3>
-            <p>{data.length ? "Optimal" : "--"}</p>
-          </div>
+          <div className="card"><h3>Total Assets</h3><p>{data.length}</p></div>
+          <div className="card critical"><h3>Critical Issues</h3><p>{data.filter(d => d.load >= 80).length}</p></div>
+          <div className="card stable"><h3>Avg Load</h3><p>{data.length ? (data.reduce((a, b) => a + b.load, 0) / data.length).toFixed(1) : 0}%</p></div>
         </div>
 
         <section className="upload-box">
-          <input type="file" accept=".csv" onChange={handleFileUpload} id="csvInput" />
-          <label htmlFor="csvInput" className="btn-primary">
-            {loading ? "Processing..." : "📂 Select CSV Data"}
-          </label>
+          <input type="file" accept=".csv" onChange={handleFileUpload} id="csv-upload" />
+          <label htmlFor="csv-upload" className="btn-primary">📂 {loading ? "Analyzing..." : "Upload CSV Data"}</label>
         </section>
 
         {data.length > 0 && (
           <div className="results-container">
             <div className="chart-section">
               <h3>Load Distribution Map</h3>
-              <div style={{ height: '320px' }}>
-                <Bar 
-                  data={chartData} 
-                  options={{ 
-                    maintainAspectRatio: false, 
-                    plugins: { legend: { display: false } },
-                    scales: { y: { beginAtZero: true, max: 100 } }
-                  }} 
-                />
-              </div>
+              <div style={{ height: '300px' }}><Bar data={chartData} options={{ maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } } }} /></div>
             </div>
-
             <div className="table-section">
-              <h3>Equipment Status Logs</h3>
-              <div className="table-wrapper">
-                <table>
-                  <thead>
-                    <tr><th>ID</th><th>Name</th><th>Status</th></tr>
-                  </thead>
-                  <tbody>
-                    {data.map((item, idx) => (
-                      <tr key={idx}>
-                        <td>{item.id}</td>
-                        <td>{item.name}</td>
-                        <td>
-                          <span className={`status-pill ${item.status.toLowerCase() === 'critical' ? 'status-critical' : 'status-stable'}`}>
-                            {item.status}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+              <h3>Live Status Logs</h3>
+              <table>
+                <thead><tr><th>ID</th><th>Name</th><th>Status</th></tr></thead>
+                <tbody>
+                  {data.map((item, idx) => (
+                    <tr key={idx}>
+                      <td>{item.id}</td>
+                      <td>{item.name}</td>
+                      <td><span className={`status-pill ${item.load >= 80 ? 'status-critical' : 'status-stable'}`}>{item.status}</span></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         )}
