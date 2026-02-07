@@ -46,7 +46,10 @@ body {
   letter-spacing: 1px;
 }
 
-.sidebar ul { list-style: none; padding: 0; }
+.sidebar ul { 
+  list-style: none; 
+  padding: 0; 
+}
 
 .sidebar li {
   padding: 12px 15px;
@@ -76,46 +79,6 @@ header {
   margin-bottom: 2rem;
 }
 
-.sidebar-toggle {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: var(--text-main);
-}
-
-/* --- Stats Cards --- */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.card {
-  background: white;
-  padding: 1.5rem;
-  border-radius: 12px;
-  box-shadow: var(--shadow);
-  border-top: 5px solid var(--primary);
-}
-
-.card.critical { border-top-color: var(--danger); }
-.card.stable { border-top-color: var(--success); }
-
-.card h3 {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  margin: 0;
-}
-
-.card p {
-  font-size: 2.2rem;
-  font-weight: 800;
-  margin: 0.5rem 0 0;
-}
-
 /* --- Upload Section --- */
 .upload-box {
   background: white;
@@ -124,15 +87,10 @@ header {
   border: 2px dashed #cbd5e1;
   text-align: center;
   margin-bottom: 2.5rem;
-  transition: border-color 0.3s;
-}
-
-.upload-box:hover {
-  border-color: var(--primary);
 }
 
 input[type="file"] {
-  display: none; /* Hidden to use custom styled label */
+  display: none;
 }
 
 .btn-primary {
@@ -144,8 +102,7 @@ input[type="file"] {
   border: none;
   cursor: pointer;
   font-weight: 600;
-  font-size: 1rem;
-  transition: background 0.2s;
+  text-decoration: none;
 }
 
 .btn-primary:hover {
@@ -155,7 +112,7 @@ input[type="file"] {
 /* --- Grid for Chart & Table --- */
 .results-container {
   display: grid;
-  grid-template-columns: 1.6fr 1fr;
+  grid-template-columns: 1.5fr 1fr;
   gap: 2rem;
 }
 
@@ -177,13 +134,11 @@ th {
   padding: 12px;
   border-bottom: 2px solid #f1f5f9;
   color: var(--text-muted);
-  font-size: 0.85rem;
 }
 
 td {
   padding: 12px;
   border-bottom: 1px solid #f8fafc;
-  font-size: 0.95rem;
 }
 
 /* --- Status Pills --- */
@@ -195,10 +150,17 @@ td {
   text-transform: uppercase;
 }
 
-.status-critical { background: #fee2e2; color: var(--danger); }
-.status-stable { background: #dcfce7; color: var(--success); }
+.status-critical { 
+  background: #fee2e2; 
+  color: var(--danger); 
+}
 
-/* --- Responsive Layout --- */
+.status-stable { 
+  background: #dcfce7; 
+  color: var(--success); 
+}
+
+/* --- Responsive --- */
 @media (max-width: 1024px) {
   .results-container {
     grid-template-columns: 1fr;
