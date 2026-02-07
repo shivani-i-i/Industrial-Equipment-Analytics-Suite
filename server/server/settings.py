@@ -85,5 +85,33 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # --- HYBRID APP SETTINGS ---
-# This allows your React app (localhost:3000) to communicate with Django
-CORS_ALLOW_ALL_ORIGINS = True
+# This allows your React app (localhost:3001) to communicate with Django
+CORS_ALLOW_CREDENTIALS = True
+
+# Whitelist for the Browser to allow the connection
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3001",
+    "http://127.0.0.1:3001",
+]
+
+# Protection against CSRF attacks for authenticated requests
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:3001",
+    "http://127.0.0.1:3001",
+]
+
+# Add this to handle the "Authentication credentials" error
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ],
+}
+
+# 2. ADD THESE LINES FOR COOKIE SHARING
+SESSION_COOKIE_SAMESITE = 'Lax'
+CSRF_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_HTTPONLY = True
