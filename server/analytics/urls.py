@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import FileUploadView
+from .views import upload_csv, export_pdf
 
 urlpatterns = [
-    # This matches the new FileUploadView class in your views.py
-    path('upload/', FileUploadView.as_view(), name='upload_csv'),
+    path('upload/', upload_csv, name='upload_csv'),
+    path('export-pdf/', export_pdf, name='export_pdf'),
 ]
