@@ -1,8 +1,8 @@
-from django.urls import path
-from . import views
+from django.contrib import admin
+from django.urls import path, include
 
 urlpatterns = [
-    # These paths combine with 'api/' from the main urls.py
-    path('upload/', views.upload_csv, name='upload_csv'),
-    path('export-pdf/', views.export_pdf, name='export_pdf'),
+    path('admin/', admin.site.urls),
+    # This points to the urls.py INSIDE your analytics folder
+    path('api/', include('analytics.urls')), 
 ]
